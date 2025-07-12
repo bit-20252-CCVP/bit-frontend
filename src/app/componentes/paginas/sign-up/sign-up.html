@@ -1,0 +1,20 @@
+<!--<form [formGroup]="registerForm" (ngSubmit)="handleSubmit()"> -->
+<form [formGroup]="registerForm">
+  <div>
+    <label for="nombreUsuario">Nombre</label>
+    <input id="nombreUsuario" type="text" formControlName="nombreUsuario" />
+  </div>
+  <div>
+    <label for="correo">Correo</label>
+    <input id="correo" type="email" formControlName="correo" />
+  </div>
+  <div>
+    <label for="contrasena">Contraseña</label>
+    <input id="contrasena" type="password" formControlName="contrasena" />
+  </div>
+  <div>
+    <label for="confContrasena">Confirmar Contraseña</label>
+    <input id="confContrasena" type="password" formControlName="confContrasena" />
+  </div>
+  <button type="submit">Register</button>
+</form>
