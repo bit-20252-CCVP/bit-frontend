@@ -1,1 +1,1 @@
-# bit-frontend
+# bit-frontend - Cristian Camilo Vega parra
