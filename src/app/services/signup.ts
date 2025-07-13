@@ -10,7 +10,7 @@ export class SignupService {
   private httpClient = inject(HttpClient);
   private apiUrl = 'http://localhost:4100/usuarios/sign-up';
 
-  registerUser(payload: any) {
+  registerUsuario(payload: any) {
     return this.httpClient.post(this.apiUrl, payload);
   }
 }

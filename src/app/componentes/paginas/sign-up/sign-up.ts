@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router'
 import {
   ReactiveFormsModule,
   FormGroup,
@@ -14,8 +15,8 @@ import { SignupService } from '../../../services/signup';
   styleUrl: './sign-up.css'
 })
 export class SignUp {
-  //router = inject(Router);
-  //signupService = inject(SignupService);
+  router = inject(Router)
+  signupService = inject(SignupService);
 
   registerForm = new FormGroup({
     nombreUsuario: new FormControl('', Validators.required),
@@ -24,10 +25,20 @@ export class SignUp {
     confContrasena: new FormControl('', Validators.required),
   });
 
- /* handleSubmit() {
+ handleSubmit() {
+  //console.log('handle submit:', this.registerForm.value);
+    /*if (this.registerForm.valid) {
+      console.log('handle submit:', this.registerForm.value);
+      this.signupService.registerUsuario((res: any) => {
+        console.log('res:', res);
+      });
+    } else {
+      console.log('Invalid form')
+    } */
+
     if (this.registerForm.valid) {
       this.signupService
-        .registerUser(this.registerForm.value)
+        .registerUsuario(this.registerForm.value)
         .subscribe((res: any) => {
           if (res.allOK) {
             this.router.navigateByUrl('/sign-in');
@@ -39,8 +50,8 @@ export class SignUp {
     } else {
       // TODO: notify
       console.log('Invalid form');
-    }
-  } */
+    } 
+  } 
 }
 
 

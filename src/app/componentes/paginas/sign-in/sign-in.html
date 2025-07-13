@@ -1,1 +1,11 @@
-<p>sign-in works!</p>
+<form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+  <div>
+    <label for="username">Nombre</label>
+    <input id="username" type="username" formControlName="username" />
+  </div>
+  <div>
+    <label for="contrasena">Contraseña</label>
+    <input id="contrasena" type="password" formControlName="contrasena" />
+  </div>
+  <button type="submit">Log In</button>
+</form>
