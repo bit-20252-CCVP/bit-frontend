@@ -1,16 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router'
+import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
   FormGroup,
   FormControl,
   Validators,
+  ValidatorFn,
+  AbstractControl,
 } from '@angular/forms';
 import { SignupService } from '../../../services/signup';
 
 @Component({
   selector: 'app-sign-up',
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './sign-up.html',
   styleUrl: './sign-up.css'
 })
@@ -18,12 +21,25 @@ export class SignUp {
   router = inject(Router)
   signupService = inject(SignupService);
 
-  registerForm = new FormGroup({
-    nombreUsuario: new FormControl('', Validators.required),
-    correo: new FormControl('', Validators.required),
-    contrasena: new FormControl('', Validators.required),
-    confContrasena: new FormControl('', Validators.required),
-  });
+registerForm!: FormGroup; 
+
+  constructor() {
+    this.registerForm = new FormGroup(
+      {
+        nombreUsuario: new FormControl('', Validators.required),
+        correo: new FormControl('', [Validators.required, Validators.email]),
+        contrasena: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        confContrasena: new FormControl('', Validators.required),
+      },
+      { validators: this.passwordsMatchValidator }
+    );
+  }
+
+passwordsMatchValidator: ValidatorFn = (form: AbstractControl): { [key: string]: boolean } | null => {
+    const password = form.get('contrasena')?.value;
+    const confirm = form.get('confContrasena')?.value;
+    return password === confirm ? null : { passwordsMismatch: true };
+  };
 
  handleSubmit() {
   //console.log('handle submit:', this.registerForm.value);

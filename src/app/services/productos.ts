@@ -11,4 +11,16 @@ export class Productos {
   getAllProductos() {
     return this.httpClient.get(this.apiUrl);
   }
+
+  crearProducto(producto: any) {
+  return this.httpClient.post(this.apiUrl, producto);
+  }
+
+  editarProducto(id: string, producto: any) {
+  return this.httpClient.put(`${this.apiUrl}/${id}`, producto);
+  }
+
+  eliminarProducto(id: string) {
+  return this.httpClient.delete(`${this.apiUrl}/${id}`);
+  }
 }
