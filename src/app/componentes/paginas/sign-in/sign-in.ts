@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {
   ReactiveFormsModule,
@@ -11,7 +12,7 @@ import { SigninService } from '../../../services/signin';
 
 @Component({
   selector: 'app-sign-in',
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './sign-in.html',
   styleUrl: './sign-in.css'
 })

@@ -1,35 +1,84 @@
 <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()">
-  <div>
-    <label for="nombreUsuario">Nombre</label>
-    <input id="nombreUsuario" type="text" formControlName="nombreUsuario" />
-    <div *ngIf="registerForm.get('nombreUsuario')?.invalid && registerForm.get('nombreUsuario')?.touched" style="color:red">
-      El nombre es obligatorio
+  <div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" novalidate>
+        <h2 class="mb-4 text-center">Registro de Usuario</h2>
+
+        <div class="mb-3">
+          <label for="nombreUsuario" class="form-label">Nombre</label>
+          <input
+            id="nombreUsuario"
+            type="text"
+            class="form-control"
+            [ngClass]="{'is-invalid': registerForm.get('nombreUsuario')?.invalid && registerForm.get('nombreUsuario')?.touched}"
+            formControlName="nombreUsuario"
+          />
+          <div class="invalid-feedback">
+            El nombre es obligatorio
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="correo" class="form-label">Correo</label>
+          <input
+            id="correo"
+            type="email"
+            class="form-control"
+            [ngClass]="{'is-invalid': registerForm.get('correo')?.invalid && registerForm.get('correo')?.touched}"
+            formControlName="correo"
+          />
+          <div class="invalid-feedback">
+            Ingrese un correo válido
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="contrasena" class="form-label">Contraseña</label>
+          <input
+            id="contrasena"
+            type="password"
+            class="form-control"
+            [ngClass]="{'is-invalid': registerForm.get('contrasena')?.invalid && registerForm.get('contrasena')?.touched}"
+            formControlName="contrasena"
+          />
+          <div class="invalid-feedback">
+            Mínimo 6 caracteres
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="confContrasena" class="form-label">Confirmar Contraseña</label>
+          <input
+            id="confContrasena"
+            type="password"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                (registerForm.get('confContrasena')?.touched &&
+                 registerForm.hasError('passwordsMismatch')) ||
+                (registerForm.get('confContrasena')?.invalid &&
+                 registerForm.get('confContrasena')?.touched)
+            }"
+            formControlName="confContrasena"
+          />
+          <div class="invalid-feedback">
+            Las contraseñas no coinciden
+          </div>
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">
+            Registrarse
+          </button>
+        </div>
+      </form>
     </div>
   </div>
+</div>
 
-  <div>
-    <label for="correo">Correo</label>
-    <input id="correo" type="email" formControlName="correo" />
-    <div *ngIf="registerForm.get('correo')?.invalid && registerForm.get('correo')?.touched" style="color:red">
-      Ingrese un correo válido
-    </div>
+<!-- Imagen -->
+  <div class="mb-5">
+    <img src="ilustracion-inventario.svg" alt="Gestión de inventario"
+         class="img-fluid shadow-sm rounded" style="max-height: 100px;">
   </div>
-
-  <div>
-    <label for="contrasena">Contraseña</label>
-    <input id="contrasena" type="password" formControlName="contrasena" />
-    <div *ngIf="registerForm.get('contrasena')?.invalid && registerForm.get('contrasena')?.touched" style="color:red">
-      Mínimo 6 caracteres
-    </div>
-  </div>
-
-  <div>
-    <label for="confContrasena">Confirmar Contraseña</label>
-    <input id="confContrasena" type="password" formControlName="confContrasena" />
-    <div *ngIf="registerForm.hasError('passwordsMismatch') && registerForm.get('confContrasena')?.touched" style="color:red">
-      Las contraseñas no coinciden
-    </div>
-  </div>
-
-  <button type="submit" [disabled]="registerForm.invalid">Registrarse</button>
-</form>

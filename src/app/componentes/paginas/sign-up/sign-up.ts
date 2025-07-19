@@ -9,6 +9,7 @@ import {
   ValidatorFn,
   AbstractControl,
 } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { SignupService } from '../../../services/signup';
 
 @Component({
@@ -20,6 +21,7 @@ import { SignupService } from '../../../services/signup';
 export class SignUp {
   router = inject(Router)
   signupService = inject(SignupService);
+  toastr = inject(ToastrService);
 
 registerForm!: FormGroup; 
 
@@ -53,21 +55,21 @@ passwordsMatchValidator: ValidatorFn = (form: AbstractControl): { [key: string]:
     } */
 
     if (this.registerForm.valid) {
-      this.signupService
-        .registerUsuario(this.registerForm.value)
-        .subscribe((res: any) => {
+      this.signupService.registerUsuario(this.registerForm.value).subscribe({
+        next: (res: any) => {
           if (res.allOK) {
+            this.toastr.success('Registro exitoso', 'Éxito 🎉');
             this.router.navigateByUrl('/sign-in');
           } else {
-            // TODO: notify
-            console.log('An error occurred');
+            this.toastr.error('No se pudo registrar el usuario', 'Error ❌');
           }
-        });
+        },
+        error: () => {
+          this.toastr.error('Error del servidor', 'Error ❌');
+        }
+      });
     } else {
-      // TODO: notify
-      console.log('Invalid form');
-    } 
-  } 
+      this.toastr.warning('Por favor completa correctamente el formulario', 'Formulario inválido ⚠️');
+    }
+  }
 }
-
-

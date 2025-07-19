@@ -1,11 +1,49 @@
-<form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
-  <div>
-    <label for="username">Nombre</label>
-    <input id="username" type="username" formControlName="username" />
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()" novalidate>
+        <h2 class="mb-4 text-center">Iniciar Sesión</h2>
+
+        <div class="mb-3">
+          <label for="username" class="form-label">Nombre</label>
+          <input
+            id="username"
+            type="text"
+            class="form-control"
+            [ngClass]="{'is-invalid': loginForm.get('username')?.invalid && loginForm.get('username')?.touched}"
+            formControlName="username"
+          />
+          <div class="invalid-feedback">
+            El nombre es obligatorio
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="contrasena" class="form-label">Contraseña</label>
+          <input
+            id="contrasena"
+            type="password"
+            class="form-control"
+            [ngClass]="{'is-invalid': loginForm.get('contrasena')?.invalid && loginForm.get('contrasena')?.touched}"
+            formControlName="contrasena"
+          />
+          <div class="invalid-feedback">
+            La contraseña es obligatoria
+          </div>
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+            Iniciar sesión
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-  <div>
-    <label for="contrasena">Contraseña</label>
-    <input id="contrasena" type="password" formControlName="contrasena" />
+</div>
+
+<!-- Imagen -->
+  <div class="mb-5">
+    <img src="ilustracion-inventario.svg" alt="Gestión de inventario"
+         class="img-fluid shadow-sm rounded" style="max-height: 100px;">
   </div>
-  <button type="submit">Log In</button>
-</form>

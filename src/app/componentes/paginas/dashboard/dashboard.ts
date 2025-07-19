@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { Productos } from '../../../services/productos';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ToastrService } from 'ngx-toastr';
 
 const jwtHelperService = new JwtHelperService();
 
@@ -18,6 +19,7 @@ export class Dashboard implements OnInit {
   private router = inject(Router);
   private productosService = inject(Productos);
   private fb = inject(FormBuilder);
+  private toastr = inject(ToastrService);
 
   userName!: string;
   productos: any[] = [];
@@ -51,7 +53,10 @@ export class Dashboard implements OnInit {
       this.productosService.crearProducto(this.productoForm.value).subscribe(() => {
         this.obtenerProductos();
         this.productoForm.reset();
+        this.toastr.success('Producto creado correctamente', '¡Éxito!');
       });
+    } else {
+      this.toastr.warning('Completa todos los campos requeridos', 'Formulario incompleto');
     }
   }
 
@@ -61,7 +66,10 @@ export class Dashboard implements OnInit {
         this.obtenerProductos();
         this.productoForm.reset();
         this.selectedId = null;
+        this.toastr.success('Producto editado correctamente', 'Actualización exitosa');
       });
+    } else {
+      this.toastr.warning('No se pudo editar', 'Error');
     }
   }
 
@@ -71,9 +79,14 @@ export class Dashboard implements OnInit {
   }
 
   eliminarProducto(id: string) {
-    this.productosService.eliminarProducto(id).subscribe(() => {
-      this.obtenerProductos();
-    });
+    const confirmado = confirm('¿Estás seguro de que deseas eliminar este producto?');
+
+    if (confirmado) {
+      this.productosService.eliminarProducto(id).subscribe(() => {
+        this.obtenerProductos();
+        this.toastr.info('Producto eliminado correctamente', 'Producto eliminado');
+      });
+    }
   }
 
   resetearFormulario() {
@@ -82,7 +95,7 @@ export class Dashboard implements OnInit {
   }
 
   logout() {
-  localStorage.removeItem('token');
-  this.router.navigateByUrl('/sign-in');
+    localStorage.removeItem('token');
+    this.router.navigateByUrl('/sign-in');
   }
 }
