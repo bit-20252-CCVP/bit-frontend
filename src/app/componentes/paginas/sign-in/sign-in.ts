@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import {ToastrService} from 'ngx-toastr'
 import { SigninService } from '../../../services/signin';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -20,6 +21,7 @@ export class SignIn {
   router = inject(Router);
   toastrService = inject (ToastrService);
   signinService = inject(SigninService);
+  authService = inject(AuthService); 
 
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -32,6 +34,7 @@ export class SignIn {
         (data: any) => {
           if (data.allOK) {
             this.toastrService.success(data.message);
+            this.authService.login(data.data);
             localStorage.setItem('token', data.data);
             this.router.navigateByUrl('/dashboard');
           }

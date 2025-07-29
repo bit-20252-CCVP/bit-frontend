@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Productos } from '../../../services/productos';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../services/auth.service';
 
 const jwtHelperService = new JwtHelperService();
 
@@ -20,6 +21,7 @@ export class Dashboard implements OnInit {
   private productosService = inject(Productos);
   private fb = inject(FormBuilder);
   private toastr = inject(ToastrService);
+  private authService = inject(AuthService);
 
   userName!: string;
   productos: any[] = [];
@@ -95,7 +97,7 @@ export class Dashboard implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('token');
+    this.authService.logout();
     this.router.navigateByUrl('/sign-in');
   }
 }
